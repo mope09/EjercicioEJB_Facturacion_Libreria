@@ -14,6 +14,9 @@ Ejercicio desarrollado en EJB contiene:
  - Tablas
  
  - Ajax
+  
+Base de Datos : Postgres 
+
  
 Instrucciones:
 
@@ -22,3 +25,5 @@ La factura permite buscar el nombre del cliente y el libro por Id, luego agrega 
 Nota: 
 
 La aplicación se debe ejecutar en un servidor web y además de debe modificar los archivos de la carpeta ant con los datos correspondientes al servidor y nombre del proyecto
+
+El script de la base de datos se lo puede descargar aqui (https://onedrive.live.com/redir?resid=8B4DD97AD09B4C9B%21527)
