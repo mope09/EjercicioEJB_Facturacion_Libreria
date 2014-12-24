@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/templateLayout.xhtml">
+	<ui:define name="tituloPagina">Cliente</ui:define>
+	<ui:define name="tituloFormulario">Datos Cliente</ui:define>
+	<ui:define name="contenido">
+		<h:form>
+			<p:growl id="growl" showDetail="true" sticky="true" />
+			<p:messages />
+			<p:panel>
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Nombre"></p:outputLabel>
+					<p:inputText value="#{controladorLibro.libro.titulo}"></p:inputText>
+					<p:outputLabel value="Categoria"></p:outputLabel>
+					<p:selectOneMenu value="#{controladorLibro.categoriaSeleccionado}">
+						<f:selectItems var="varCategoria"
+							value="#{controladorLibro.categorias}"
+							itemLabel="#{varCategoria.nombre}" itemValue="#{varCategoria.id}"></f:selectItems>
+					</p:selectOneMenu>
+					<p:outputLabel value="Autor"></p:outputLabel>
+					<p:selectOneMenu value="#{controladorLibro.autorSeleccionado}">
+						<f:selectItems var="varAutor" value="#{controladorLibro.autores}"
+							itemLabel="#{varAutor.nombre}" itemValue="#{varAutor.id}"></f:selectItems>
+					</p:selectOneMenu>
+					<p:outputLabel value="Precio"></p:outputLabel>
+					<p:inputText value="#{controladorLibro.libro.precio}"></p:inputText>
+				</p:panelGrid>
+				<p:commandButton value="Insertar"
+					action="#{controladorLibro.insertarLibro()}" update="@form tablaLibros"></p:commandButton>
+					<p:commandButton value="Actualizar"
+					action="#{controladorLibro.actualizarLibro()}" update="@form tablaLibros"></p:commandButton>
+				<p:dataTable value="#{controladorLibro.libros}"
+					var="varTablarLibros" id="tablaLibros">
+					<p:column>
+						<p:outputLabel value="#{varTablarLibros.titulo}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="#{varTablarLibros.categoria.nombre}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="#{varTablarLibros.autor.nombre}"></p:outputLabel>
+					</p:column>						
+					<p:column>
+					<p:outputLabel value="#{varTablarLibros.precio}"></p:outputLabel>
+					</p:column>
+					<p:column>
+					<p:commandButton value="Seleccionar" update="@form tablaLibros" action="#{controladorLibro.seleccionarlibro()}">
+					<f:setPropertyActionListener target="#{controladorLibro.libro}" value="#{varTablarLibros}"></f:setPropertyActionListener>
+					</p:commandButton>
+					<p:commandButton value="Eliminar" update="@form tablaLibros" action="#{controladorLibro.eliminarLibro()}">
+					<f:setPropertyActionListener target="#{controladorLibro.libro}" value="#{varTablarLibros}"></f:setPropertyActionListener>
+					</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

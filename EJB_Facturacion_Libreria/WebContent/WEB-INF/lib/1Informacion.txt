@@ -1,0 +1,8 @@
+http://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports/5.0.1
+en esta pagina se encuentran toda la informacion sobre los jars que se requieren
+
+
+los que no se encuentran en la pagina son:
+
+mondrian
+commons-javaflow

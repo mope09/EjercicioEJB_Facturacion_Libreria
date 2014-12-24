@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/templateLayout.xhtml">
+	<ui:define name="tituloPagina">Cliente</ui:define>
+	<ui:define name="tituloFormulario">Datos Cliente</ui:define>
+	<ui:define name="contenido">
+		<h:form>
+			<p:growl id="growl" showDetail="true" sticky="true" />
+			<p:messages />
+			<p:panel>
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Nombre"></p:outputLabel>
+					<p:inputText value="#{controladorRol.rol.nombre}"></p:inputText>
+					<p:outputLabel value="Descripcion"></p:outputLabel>
+					<p:inputText value="#{controladorRol.rol.descripcion}"></p:inputText>
+				</p:panelGrid>
+				<p:commandButton value="Insertar"
+					action="#{controladorRol.insertarRol()}" update="@form tablaRoless"></p:commandButton>
+				<p:commandButton value="Actualizar"
+					action="#{controladorRol.actualizarRol()}"
+					update="@form tablaRoless"></p:commandButton>
+				<p:dataTable id="tablaRoless" var="varTablaRoless"
+					value="#{controladorRol.roles}">
+					<p:column>
+						<p:outputLabel value="#{varTablaRoless.nombre}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="#{varTablaRoless.descripcion}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:commandButton value="Seleccionar"
+							action="#{controladorRol.seleccionar()}"
+							update="@form tablaRoless">
+							<f:setPropertyActionListener target="#{controladorRol.rol}"
+								value="#{varTablaRoless}"></f:setPropertyActionListener>
+						</p:commandButton>
+					</p:column>
+					<p:column>
+						<p:commandButton value="Eliminar"
+							action="#{controladorRol.eliminarRol()}"
+							update="@form tablaRoless">
+							<f:setPropertyActionListener target="#{controladorRol.rol}"
+								value="#{varTablaRoless}"></f:setPropertyActionListener>
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/templateLayout.xhtml">
+	<ui:define name="tituloPagina">Categoria</ui:define>
+	<ui:define name="tituloFormulario">Datos Categoria</ui:define>
+	<ui:define name="contenido">
+		<h:form>
+			<p:growl id="growl" showDetail="true" sticky="true" />
+			<p:messages />
+			<p:panel>
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Nombre"></p:outputLabel>
+					<p:inputText value="#{controladorCategoria.categoria.nombre}"></p:inputText>
+					<p:outputLabel value="Descripcion"></p:outputLabel>
+					<p:inputTextarea
+						value="#{controladorCategoria.categoria.descripcion}"></p:inputTextarea>
+				</p:panelGrid>
+				<p:commandButton value="Insertar"
+					action="#{controladorCategoria.insertarCat()}" update="@form tablaCategoria"></p:commandButton>
+				<p:commandButton value="Actualizar"
+					action="#{controladorCategoria.actualizarCat()}" update="@form tablaCategoria"></p:commandButton>
+			</p:panel>
+			<p:dataTable id="tablaCategoria"
+				value="#{controladorCategoria.categorias}" var="varTablaCategoria">
+				<p:column>
+					<p:outputLabel value="#{varTablaCategoria.nombre}"></p:outputLabel>
+				</p:column>
+				<p:column>
+					<p:outputLabel value="#{varTablaCategoria.descripcion}"></p:outputLabel>
+				</p:column>
+				<p:column>
+					<p:commandButton value="Seleccionar"
+						action="#{controladorCategoria.seleccionar()}"
+						update="@form tablaCategoria">
+						<f:setPropertyActionListener
+							target="#{controladorCategoria.categoria}"
+							value="#{varTablaCategoria}"></f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+				<p:column>
+					<p:commandButton value="Eliminar"
+						action="#{controladorCategoria.eliminarCat()}"
+						update="@form tablaCategoria">
+						<f:setPropertyActionListener
+							target="#{controladorCategoria.categoria}"
+							value="#{varTablaCategoria}"></f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

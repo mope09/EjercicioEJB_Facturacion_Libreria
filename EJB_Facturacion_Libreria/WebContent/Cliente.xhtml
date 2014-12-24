@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/templateLayout.xhtml">
+	<ui:define name="tituloPagina">Cliente</ui:define>
+	<ui:define name="tituloFormulario">Datos Cliente</ui:define>
+	<ui:define name="contenido">
+		<h:form>
+			<p:growl id="growl" showDetail="true" sticky="true" />
+			<p:messages />
+			<p:panel>
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Cedula"></p:outputLabel>
+					<p:inputText value="#{controladorCliente.cliente.cedula}"></p:inputText>
+					<p:outputLabel value="Nombre"></p:outputLabel>
+					<p:inputText value="#{controladorCliente.cliente.nombre}"></p:inputText>
+					<p:outputLabel value="Apellido"></p:outputLabel>
+					<p:inputText value="#{controladorCliente.cliente.apellido}"></p:inputText>
+					<p:outputLabel value="Direccion"></p:outputLabel>
+					<p:inputText value="#{controladorCliente.cliente.direccion}"></p:inputText>
+					<p:outputLabel value="Nacionalidad"></p:outputLabel>
+					<p:selectOneMenu
+						value="#{controladorCliente.nacionalidadSeleccionada}">
+						<f:selectItems value="#{controladorCliente.nacionalidades}"
+							var="varNac" itemLabel="#{varNac.nombre}"
+							itemValue="#{varNac.id}"></f:selectItems>
+					</p:selectOneMenu>
+					<p:outputLabel value="Fecha de Nacimiento"></p:outputLabel>
+					<p:calendar value="#{controladorCliente.cliente.fechaNacimiento}"></p:calendar>
+				</p:panelGrid>
+				<p:commandButton value="Insertar"
+					action="#{controladorCliente.insertarCliente()}" update="@form tablaClientes"></p:commandButton>
+				<p:commandButton value="Actualizar"
+					action="#{controladorCliente.actualizarCliente()}" update="@form tablaClientes"></p:commandButton>
+				<p:dataTable id="tablaClientes" var="varTablaCliente"
+					value="#{controladorCliente.clientes}">
+					<p:column>
+						<p:outputLabel value="#{varTablaCliente.cedula}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="#{varTablaCliente.nombre}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="#{varTablaCliente.apellido}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="#{varTablaCliente.direccion}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="#{varTablaCliente.fechaNacimiento}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="#{varTablaCliente.nacionalidad.nombre}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:commandButton value="Seleccionar"
+							action="#{controladorCliente.seleccionar()}"
+							update="@form tablaClientes">
+							<f:setPropertyActionListener
+								target="#{controladorCliente.cliente}"
+								value="#{varTablaCliente}"></f:setPropertyActionListener>
+						</p:commandButton>
+					</p:column>
+					<p:column>
+						<p:commandButton value="Eliminar"
+							action="#{controladorCliente.eliminarCliente()}"
+							update="@form tablaClientes">
+							<f:setPropertyActionListener
+								target="#{controladorCliente.cliente}"
+								value="#{varTablaCliente}"></f:setPropertyActionListener>
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

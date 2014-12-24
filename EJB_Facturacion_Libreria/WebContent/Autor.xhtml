@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/templateLayout.xhtml">
+	<ui:define name="tituloPagina">Autor</ui:define>
+	<ui:define name="tituloFormulario">Datos Autor</ui:define>
+	<ui:define name="contenido">
+		<h:form>
+			<p:growl id="growl" showDetail="true" sticky="true" />
+			<p:messages />
+			<p:panel>
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Nombre"></p:outputLabel>
+					<p:inputText value="#{controladorAutor.autor.nombre}"></p:inputText>
+					<p:outputLabel value="Apellido"></p:outputLabel>
+					<p:inputText value="#{controladorAutor.autor.apellido}"></p:inputText>
+					<p:outputLabel value="Nacionalidad"></p:outputLabel>
+					<p:selectOneMenu
+						value="#{controladorAutor.nacionalidadSeleccionada}">
+						<f:selectItems var="varNacionalidad"
+							value="#{controladorAutor.nacionalidades}"
+							itemLabel="#{varNacionalidad.nombre}"
+							itemValue="#{varNacionalidad.id}"></f:selectItems>
+					</p:selectOneMenu>
+					<p:outputLabel value="Fecha de Nacimiento"></p:outputLabel>
+					<p:calendar value="#{controladorAutor.autor.fechaNacimiento}"></p:calendar>
+				</p:panelGrid>
+			</p:panel>
+			<p:commandButton value="Insertar"
+				action="#{controladorAutor.insertarAutor()}"
+				update="@form tablaAutor"></p:commandButton>
+				
+				<p:commandButton value="Actualizar"
+				action="#{controladorAutor.actualizarAutor()}"
+				update="@form tablaAutor"></p:commandButton>
+			<p:dataTable id="tablaAutor" value="#{controladorAutor.autores}"
+				var="varTablaAutor">
+				<p:column>
+					<p:outputLabel value="#{varTablaAutor.nombre}"></p:outputLabel>
+				</p:column>
+				<p:column>
+					<p:outputLabel value="#{varTablaAutor.apellido}"></p:outputLabel>
+				</p:column>
+				<p:column>
+					<p:outputLabel value="#{varTablaAutor.nacionalidad.nombre}"></p:outputLabel>
+				</p:column>
+				<p:column>
+					<p:outputLabel value="#{varTablaAutor.fechaNacimiento}"></p:outputLabel>
+				</p:column>
+				<p:column>
+					<p:commandButton value="Seleccionar"
+						action="#{controladorAutor.seleccionar()}"
+						update="@form tablaAutor">
+						<f:setPropertyActionListener target="#{controladorAutor.autor}"
+							value="#{varTablaAutor}"></f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+				<p:column>
+					<p:commandButton value="Eliminar"
+						action="#{controladorAutor.eliminarAutor()}"
+						update="@form tablaAutor">
+						<f:setPropertyActionListener target="#{controladorAutor.autor}"
+							value="#{varTablaAutor}"></f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/templateLayout.xhtml">
+	<ui:define name="tituloPagina">Factura</ui:define>
+	<ui:define name="tituloFormulario">Datos Factura</ui:define>
+	<ui:define name="contenido">
+		<h:form>
+			<p:growl id="growl" showDetail="true" sticky="true" />
+			<h:outputText value="#{dataManager.usuario.username}" />
+			<p:panel>
+				<p:panelGrid columns="2" >
+					<p:outputLabel value="Fecha de Factura"></p:outputLabel>
+					<p:calendar value="#{controladorFactura.factura.fechaFactura}"></p:calendar>
+					<p:outputLabel value="Nro de factura"></p:outputLabel>
+					<p:inputText value="#{controladorFactura.factura.id}"></p:inputText>
+				</p:panelGrid>
+				<p:panelGrid columns="3">
+					<p:outputLabel value="ID"></p:outputLabel>
+					<p:inputText value="#{controladorFactura.clienteSeleccionado}" required="true"></p:inputText>
+
+					<p:commandButton value="Buscar Cliente"
+						action="#{controladorFactura.buscarClienteById()}" update="@form"></p:commandButton>
+					<p:outputLabel value="Nombre"></p:outputLabel>
+					<p:outputLabel
+						value="#{controladorFactura.clienteEncontrado.nombre}"></p:outputLabel>
+					<p:outputLabel
+						value="#{controladorFactura.clienteEncontrado.apellido}"></p:outputLabel>
+
+					<p:outputLabel value="ID"></p:outputLabel>
+					<p:inputText value="#{controladorFactura.libroSeleccionado}" required="true"></p:inputText>
+					<p:commandButton value="Buscar Libro"
+						action="#{controladorFactura.buscarLibroById()}" update="@form"></p:commandButton>
+					<p:outputLabel value="Titulo"></p:outputLabel>
+					<p:outputLabel value="#{controladorFactura.libroEncontrado.titulo}"></p:outputLabel>
+					<p:outputLabel value="#{controladorFactura.libroEncontrado.precio}"></p:outputLabel>
+				</p:panelGrid>
+				<input type="hidden"
+					value="#{controladorFactura.clienteSeleccionado2}" />
+				<p:panelGrid columns="3">
+					<p:outputLabel value="Cantidad"></p:outputLabel>
+					<p:inputText value="#{controladorFactura.detalleFactura.cantidad}" required="true"></p:inputText>
+					<p:commandButton value="Agregar Detalle"
+						action="#{controladorFactura.agregarDetalle()}"
+						update="@form tablaDetalle"></p:commandButton>
+				</p:panelGrid>
+				<p:dataTable id="tablaDetalle" var="varTablaDetalle"
+					value="#{controladorFactura.detalleFacturas}">
+
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="Codigo"></p:outputLabel>
+						</f:facet>
+						<p:outputLabel value="#{varTablaDetalle.id}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="Titulo"></p:outputLabel>
+						</f:facet>
+						<p:outputLabel value="#{varTablaDetalle.libro.titulo}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="Cantidad"></p:outputLabel>
+						</f:facet>
+						<p:outputLabel value="#{varTablaDetalle.cantidad}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="Precio"></p:outputLabel>
+						</f:facet>
+						<p:outputLabel value="#{varTablaDetalle.libro.precio}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="Subtotal"></p:outputLabel>
+						</f:facet>
+						<p:outputLabel value="#{varTablaDetalle.subtotal}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<f:facet name="header">
+							<p:outputLabel value="Acciones"></p:outputLabel>
+						</f:facet>
+						<p:commandButton value="Eliminar"
+							action="#{controladorFactura.eliminarDetalle()}"
+							update="@form tablaDetalle">
+							<f:setPropertyActionListener
+								target="#{controladorFactura.detalleFactura}"
+								value="#{varTablaDetalle}"></f:setPropertyActionListener>
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Subtotal"></p:outputLabel>
+					<p:outputLabel value="#{controladorFactura.subtotal}"></p:outputLabel>
+					<p:outputLabel value="IVA"></p:outputLabel>
+					<p:outputLabel value="#{controladorFactura.iva}"></p:outputLabel>
+					<p:outputLabel value="Total"></p:outputLabel>
+					<p:outputLabel value="#{controladorFactura.total}"></p:outputLabel>
+				</p:panelGrid>
+				<p:commandButton value="Grabar"
+					action="#{controladorFactura.grabarFactura()}" update="@form tablaDetalle"></p:commandButton>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/templateLayout.xhtml">
+	<ui:define name="tituloPagina">Reporte</ui:define>
+	<ui:define name="tituloFormulario">Datos Reporte</ui:define>
+	<ui:define name="contenido">
+		<h:form>
+			<p:growl id="growl" showDetail="true" sticky="true" />
+			<p:messages />
+			<p:dataTable var="varTablaLibros" id="tablaLibros"
+				value="#{controladorReporte.libros}">
+				<p:column>
+					<f:facet name="header">
+						<p:outputLabel value="Titulo"></p:outputLabel>
+					</f:facet>
+					<p:outputLabel value="#{varTablaLibros.titulo}"></p:outputLabel>
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<p:outputLabel value="Categoria"></p:outputLabel>
+					</f:facet>
+					<p:outputLabel value="#{varTablaLibros.categoria.nombre}"></p:outputLabel>
+				</p:column>
+				<p:column>
+					<f:facet name="header">
+						<p:outputLabel value="Autor"></p:outputLabel>
+					</f:facet>
+					<p:outputLabel value="#{varTablaLibros.autor.nombre}"></p:outputLabel>
+				</p:column>
+				<p:column exportable="false">
+					<f:facet name="header">
+						<p:outputLabel value="Fecha Publicacion"></p:outputLabel>
+					</f:facet>
+					<p:outputLabel value="#{varTablaLibros.fechaPublicacion}"></p:outputLabel>
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Exportar" ajax="false" >
+				<p:dataExporter target="tablaLibros" type="pdf" fileName="Libro" encoding="ISO-8859-1"
+					preProcessor="#{controladorReporte.preProcessPDF}"></p:dataExporter>
+			</p:commandButton>
+			<p:panel>
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

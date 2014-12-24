@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/templates/templateLayout.xhtml">
+	<ui:define name="tituloPagina">Cliente</ui:define>
+	<ui:define name="tituloFormulario">Datos Cliente</ui:define>
+	<ui:define name="contenido">
+		<h:form>
+			<p:growl id="growl" showDetail="true" sticky="true" />
+			<p:messages />
+			<p:panel>
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Pais"></p:outputLabel>
+					<p:inputText value="#{controladorNacionalidad.nacionalidad.pais}"></p:inputText>
+					<p:outputLabel value="Nombre"></p:outputLabel>
+					<p:inputText value="#{controladorNacionalidad.nacionalidad.nombre}"></p:inputText>
+				</p:panelGrid>
+				<p:commandButton value="Insertar" update="@form tablaNacionalidad"
+					action="#{controladorNacionalidad.insertarNacionalidad()}"></p:commandButton>
+				<p:commandButton value="Actualizar" update="@form tablaNacionalidad"
+					action="#{controladorNacionalidad.actualizarNacionalidad()}"></p:commandButton>
+				<p:dataTable id="tablaNacionalidad" var="varTablaNacionalidad"
+					value="#{controladorNacionalidad.nacionalidades}">
+					<p:column>
+						<p:outputLabel value="#{varTablaNacionalidad.pais}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="#{varTablaNacionalidad.nombre}"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:commandButton value="Seleccionar"
+							update="@form tablaNacionalidad"
+							action="#{controladorNacionalidad.seleccionarNac()}">
+							<f:setPropertyActionListener
+								target="#{controladorNacionalidad.nacionalidad}"
+								value="#{varTablaNacionalidad}"></f:setPropertyActionListener>
+						</p:commandButton>
+					</p:column>
+					<p:column>
+						<p:commandButton value="Eliminar" update="@form tablaNacionalidad"
+							action="#{controladorNacionalidad.eliminarNacionalidad()}">
+							<f:setPropertyActionListener
+								target="#{controladorNacionalidad.nacionalidad}"
+								value="#{varTablaNacionalidad}"></f:setPropertyActionListener>
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+
+			</p:panel>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
